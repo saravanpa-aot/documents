@@ -1,0 +1,47 @@
+@startuml
+    title EJV Payment Flow
+
+    (*) --> "Payment Job"
+    note right
+    Payment Job includes the cron for settling EJV Payments and EJV dibursements.
+    end note
+
+    --> ===EJV_PAYMENT_START=== 
+    -left-> "Government Account Payment"
+    if "Iterate for each batch type (GI and GA)" then
+        -down-> "Get all accounts for batch type"
+        -->"Create JV Header Per Account"
+
+        -->"Create lines for debits and credits for each invoice \n
+        (status : APPROVED, no ACTIVE invoice_references)"
+
+        -->"Create reversal lines for debits and credits for any invoice to be refunded \n
+        (status : REFUND_REQUESTED and has COMPLETED invoice_references)"
+
+    endif
+
+    -->"Upload to Minio"
+    -->"Upload INBOX file to sFTP"
+    -->"Upload TRG file to sFTP"
+
+    -down-> ===EJV_PAYMENT_END===
+
+    "Payment Job" --> ===EJV_PAYMENT_START=== 
+        -right-> "Partner Dibursement"
+        if "Iterate for each batch type (GI and GA)" then
+            -down-> "Get all Partner to settle by EJV"
+            -->"Create JV Header Per Partner"
+            -->"Create lines for debits and credits for each invoice statutory fee \n
+                (Invoice status : PAID, disbursement_status is null)"
+            -->"Create reversal lines for debits and credits for any refunded invoice \n
+                (Invoice status REFUNDED and disbursement status COMPLETED"
+
+        endif
+        -->"Upload to Minio"
+        -->"Upload INBOX file to sFTP"
+        -->"Upload TRG file to sFTP"
+
+    -down-> ===EJV_PAYMENT_END===
+    --> (*)
+
+@enduml
