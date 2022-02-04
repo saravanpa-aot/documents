@@ -128,18 +128,6 @@ Now investigate the issue; may be a data fix or code fix might be needed based o
 ./q_cli.py -f <FILE NAME in minio> -m '' -l ''
 ```
 
-## Query for getting sum of transactions per account specific to a payment method
-
-
-
-
-## 
-select id, invoice_status_code from invoices where id in (select invoice_id from invoice_references where invoice_number in ('REG00178704','REG00136791','REG00181380','REG00180417','REG00182535','REG00182553','REG00180769','REG00185683','REG00181229','REG00182254','REG00182438','REG00185809','REG00180426','REG00180726','REG00186142','REG00185723','REG00183280','REG00180413','REG00183012','REG00183314','REG00183679','REG00182089','REG00184378','REG00182358','REG00186419','REG00184658','REG00180410','REG00182397','REG00184645','REG00182505','REG00185337','REG00185944','REG00182344','REG00185442','REG00182978','REG00180438','REG00186093','REG00183390','REG00183818','REG00182702','REG00185516','REG00183261','REG00185928','REG00183211','REG00182867','REG00180456','REG00182342'))
-pay-db-# and invoice_status_code != 'PAID';
-
-
-
-
 
 ## How to find duplicate payment records
 
@@ -188,6 +176,7 @@ curl -X PUT https://cfs-prodws.cas.gov.bc.ca:7121/ords/cas/cfs/parties/<cfs_part
 ```
 
 2 - Update cfs_accounts status to ACTIVE (from FREEZE)
+
 3 - Update orgs status to ACTIVE (in Auth database)
 
 
