@@ -72,7 +72,7 @@ group by pa.id;
 ## How to curl invoice details in CFS.
 ### First Generate a token.
 ```
-curl -X POST https://cfs-prodws.cas.gov.bc.ca:7121/ords/cas/oauth/token -u ClDHfyi158JRKr41RnuTXw..:KUj_kBn3fWmqmI-Nq_ODww.. -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials' -i
+curl -X POST https://cfs-prodws.cas.gov.bc.ca:7121/ords/cas/oauth/token -u cfs_client_id:cfs_lient_secret -H 'Content-Type:application/x-www-form-urlencoded' -d 'grant_type=client_credentials' -i
 ```
 ### Use the access_token from above response and query CFS.
 Party number, account number and site number are in cfs_accounts table in pay-db.
