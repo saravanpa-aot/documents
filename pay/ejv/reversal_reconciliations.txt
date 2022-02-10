@@ -1,0 +1,54 @@
+@startuml
+    title EJV Reversal Reconciliation Flow
+
+    (*) --> "Separate and group EJV and AP FEEDBACK"
+    note right
+    Reconciliation contains the listeners for any FEEDBACK from CGI.
+    end note
+
+    --> ===EJV_RECONCILIATION_START=== 
+
+    -left-> "Gov Account Reversal Reconciliation"
+        -down-> "Get the status code from FEEDBACK line"
+        if "Reversal success (i.e, code 0000)" then
+            -->"Update invoice status to REFUNDED, \n
+            and invoice reference status to COMPLETED"
+            note right
+                Success
+            end note
+        else
+            -->"Update invoice reference status \n
+             to CANCELLED"
+            note right
+                Failure
+            end note
+            -->"Update gov account distribution code stop_ejv to True"
+            -->"Publish staff email of reversal failure"
+        endif
+
+
+    -down-> ===EJV_RECONCILIATION_END===
+
+    "Separate and group EJV and AP FEEDBACK" --> ===EJV_RECONCILIATION_START=== 
+        -right-> "Dibursement Reversal Reconciliation"
+        -down-> "Get the status code from FEEDBACK line"
+        if "Disbursement reversal success (i.e, code 0000)" then
+            -->"Update invoice disbursement \n
+            status to REVERSED"
+            note right
+                Success
+            end note
+        else
+            -->"Update invoice disbursement \n
+            status to ERRORED"
+            note right
+                Failure
+            end note
+            -->"Update partner distribution code stop_ejv to True"
+            -->"Publish staff email of partner reversal failure"
+        endif
+
+    -down-> ===EJV_RECONCILIATION_END===
+    --> (*)
+
+    @enduml
