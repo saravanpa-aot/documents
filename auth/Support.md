@@ -183,3 +183,14 @@ curl -X PUT https://cfs-prodws.cas.gov.bc.ca:7121/ords/cas/cfs/parties/<cfs_part
 
 
 
+How to get CFS token
+														      
+``` 
+curl -X POST https://cfs-systws.cas.gov.bc.ca:7025/ords/cas/oauth/token -H 'Authorization: Basic c2lnT2Vab0llbmNkTVk4OGFwS2FYUS4uOnZQXzV4NmNKMjFRMzRUdU9DYnFiZ1EuLg==' -H 'Content-Type: application/x-www-form-urlencoded' -d grant_type=client_credentials
+														      
+```
+														  
+														      
+
+														      
+														      
